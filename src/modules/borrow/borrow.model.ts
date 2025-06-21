@@ -32,7 +32,7 @@ borrowSchema.static("handleBookStock", async function handleBookStock(payload : 
         throw new Error("book not found")
     };
 
-    if(payload.quantity >= book.copies){
+    if(payload.quantity > book.copies){
         throw new Error("Borrow quantity exceeds available copies")
     }
 
