@@ -1,5 +1,16 @@
 import { Request, Response } from "express";
 import Book from "./book.model";
+// import { z } from "zod";
+
+// const createBookZodSchema = z.object({
+//     title: z.string(),
+//     author: z.string(),
+//     genre: z.string(),
+//     isbn: z.number(),
+//     description: z.string().optional(),
+//     copies: z.number(),
+//     available: z.boolean().optional()
+// })
 
 const createBook = async (req: Request, res: Response) => {
     try {
@@ -22,8 +33,20 @@ const createBook = async (req: Request, res: Response) => {
 
 const getBooks = async (req: Request, res: Response) => {
     try {
-        // const data = await Book.find();
-        const data = await Book.find().sort({"createdAt" : "asc"}).limit(10);
+        const { genre, sort = "asc", limit = "10" } = req.query;
+        const filter: any = {}
+        if (genre) {
+            filter.genre = genre
+        }
+
+        //    sort
+        const sortOrder = sort === 'desc' ? -1 : 1;
+        // query db
+        const data = await Book.find(filter)
+            .sort({ createdAt: sortOrder })
+            .limit(Number(limit));
+
+
         res.status(200).send({
             success: true,
             message: "Books retrieved successfully",
@@ -44,12 +67,7 @@ const getBookById = async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId;
         const data = await Book.findById(bookId);
-        if(!data){
-            return res.status(404).send({
-                success :false,
-                message:"Book not found"
-            })
-        }
+
         res.status(200).send({
             success: true,
             message: "book retrieved successfully",
@@ -90,23 +108,23 @@ const updateBook = async (req: Request, res: Response) => {
     }
 };
 
-const deleteBook = async(req: Request, res: Response) =>{
+const deleteBook = async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId;
         const data = await Book.findByIdAndDelete(bookId);
-         res.status(200).send({
-            success : true,
-            message : "Book deleted successfully",
+        res.status(200).send({
+            success: true,
+            message: "Book deleted successfully",
             data
         })
-        
+
     } catch (error) {
-         res.status(500).send({
+        res.status(500).send({
             success: false,
             message: "Something went wrong",
             error
         });
-        
+
     }
 };
 
