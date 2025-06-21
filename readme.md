@@ -55,3 +55,31 @@ A robust RESTful API for managing books and borrowings in a library system. Buil
 | GET    | `/api/borrow/summary` | Get borrowing summary     |
 
 
+## 🚀 Getting Started
+
+### 📦 Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/mohammaduzzal/L2-A3-library-management-mongoose.git
+cd L2-A3-library-management-mongoose
+
+Install dependencies:
+
+npm install
+
+⚙️ Environment Variables
+Create a .env file in the root directory of your project and add the following:
+
+PORT=5000
+DATABASE_URL=your_mongodb_connection_string
+
+PORT: The port on which the server will run (e.g., 5000).
+
+
+
+▶️ Running the Server
+To start the development server:
+
+npm run dev
+
+The server will typically run on http://localhost:5000 (or the port you specified in your .env file).
