@@ -1,20 +1,21 @@
 import { Request, Response } from "express";
 import Book from "./book.model";
-// import { z } from "zod";
+import { z } from "zod";
 
-// const createBookZodSchema = z.object({
-//     title: z.string(),
-//     author: z.string(),
-//     genre: z.string(),
-//     isbn: z.number(),
-//     description: z.string().optional(),
-//     copies: z.number(),
-//     available: z.boolean().optional()
-// })
+const createBookZodSchema = z.object({
+    title: z.string(),
+    author: z.string(),
+    genre: z.string(),
+    isbn: z.string(),
+    description: z.string().optional(),
+    copies: z.number(),
+    available: z.boolean().optional()
+})
 
 const createBook = async (req: Request, res: Response) => {
     try {
-        const data = await Book.create(req.body)
+        const zodBody = await createBookZodSchema.parseAsync(req.body)
+        const data = await Book.create(zodBody)
         res.status(201).send({
             success: true,
             message: "book created successfully",

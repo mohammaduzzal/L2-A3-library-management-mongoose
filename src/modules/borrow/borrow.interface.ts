@@ -7,5 +7,5 @@ export interface IBorrow{
 }
 
 export interface IBorrowModelType extends Model<IBorrow>{
-    handleBookStock(payload : IBorrow) : Promise<any>
+    handleBookStock(payload : IBorrow) : Promise<void>
 }

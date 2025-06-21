@@ -39,7 +39,7 @@ const getBorrow = async(req:Request, res:Response)=>{
             // lookup book details --step-2
             {
                 $lookup:{
-                    from : "books", //collection name (case sensitive)
+                    from : "books", //collection name
                     localField : "_id",
                     foreignField : "_id",
                     as : "bookDetails"
